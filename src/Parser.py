@@ -6,15 +6,13 @@ from dateutil.relativedelta import relativedelta
 
 # класс, позволяющий взаимодействовать с API hh.ru
 class Parser:
-    def __init__(self, keyword_titles):
+    def __init__(self):
         # адрес запроса
         self.__url = f"https://api.hh.ru"
 
         # диапазон дат для вакансий
         self.__dt_from = (datetime.date.today() - relativedelta(years=1)).strftime('%Y-%m-%d')
         self.__dt_to = datetime.date.today().strftime('%Y-%m-%d')
-
-        self.__keyword_titles = keyword_titles
 
     # получение параметров запроса
     def get_vacancies_params(self, text, city, page=1):
