@@ -2,7 +2,7 @@ import csv
 from abc import ABC, abstractmethod
 
 
-# абстрактный класс для обработки файлов
+# абстрактный класс для обработки файло
 class AbstractFileHandler(ABC):
     @abstractmethod
     def save_file(self, data):
