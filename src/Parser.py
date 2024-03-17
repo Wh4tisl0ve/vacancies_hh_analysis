@@ -17,7 +17,7 @@ class Parser:
     # получение параметров запроса
     def get_vacancies_params(self, text, city, page=1):
         params = {
-            "text": text,
+            "text": f'NAME:{text}',
             'date_from': self.__dt_from,
             'date_to': self.__dt_to,
             'currency': 'RUR',

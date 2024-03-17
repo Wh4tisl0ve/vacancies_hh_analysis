@@ -22,7 +22,13 @@ def main():
     data = parser.get_vacancy_request(params, headers)
 
     for i in data['items']:
-        print(i)
+        print(i['id'], '|',
+              i['name'], '|',
+              i['area']['name'], '|',
+              i['salary'], '|',
+              i['employer']['name'], '|',
+              i['experience']['name'], '|',
+              i['snippet']['requirement'])
 
 
 if __name__ == "__main__":
