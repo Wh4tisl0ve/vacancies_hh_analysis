@@ -16,19 +16,23 @@ def main():
     most_popular_city = [1, 2, 3, 4, 88, 66, 54, 104, 78, 99]
 
     parser = src.Parser.Parser()
-
-    params = parser.get_vacancies_params(text=most_popular_lang[0], city=most_popular_city[0], page=1)
-    headers = parser.get_headers()
-    data = parser.get_vacancy_request(params, headers)
-
-    for i in data['items']:
-        print(i['id'], '|',
-              i['name'], '|',
-              i['area']['name'], '|',
-              i['salary'], '|',
-              i['employer']['name'], '|',
-              i['experience']['name'], '|',
-              i['snippet']['requirement'])
+    csv_handler = src.FileHandler.CSVHandler()
+    # for lang in most_popular_lang:
+    #     for city in most_popular_city:
+    #         for page in range(0, 1):
+    #             params = parser.get_vacancies_params(text=lang, city=city, page=page)
+    #             headers = parser.get_headers()
+    #             data = parser.get_vacancy_request(params, headers)
+    #
+    for lang in most_popular_lang:
+        for city in most_popular_city:
+            for page in range(0, 5):
+                params = parser.get_vacancies_params(text=lang, city=city, page=page)
+                headers = parser.get_headers()
+                data = parser.get_vacancy_request(params, headers)
+                if data is not None:
+                    for i in data['items']:
+                        csv_handler.save_file(i)
 
 
 if __name__ == "__main__":

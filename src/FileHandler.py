@@ -18,17 +18,16 @@ class CSVHandler(AbstractFileHandler):
     def save_file(self, data):
         with open('../data.csv', 'a', newline='') as csvfile:
             csvwriter = csv.writer(csvfile, delimiter=',')
-            for row in data:
-                try:
-                    csvwriter.writerow((row['id'],
-                                        row['name'],
-                                        row['area']['name'],
-                                        row['employer']['name'],
-                                        row['salary'],
-                                        row['snippet']['requirement'],
-                                        row['experience']['name']))
-                except:
-                    print('Ошибка записи строки')
+            try:
+                csvwriter.writerow((data['id'],
+                                    data['name'],
+                                    data['area']['name'],
+                                    data['employer']['name'],
+                                    data['salary'],
+                                    data['snippet']['requirement'],
+                                    data['experience']['name']))
+            except:
+                pass
 
     def read_file(self):
         pass
