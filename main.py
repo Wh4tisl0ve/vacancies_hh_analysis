@@ -17,13 +17,7 @@ def main():
 
     parser = src.Parser.Parser()
     csv_handler = src.FileHandler.CSVHandler()
-    # for lang in most_popular_lang:
-    #     for city in most_popular_city:
-    #         for page in range(0, 1):
-    #             params = parser.get_vacancies_params(text=lang, city=city, page=page)
-    #             headers = parser.get_headers()
-    #             data = parser.get_vacancy_request(params, headers)
-    #
+
     for lang in most_popular_lang:
         for city in most_popular_city:
             for page in range(0, 5):
@@ -31,8 +25,22 @@ def main():
                 headers = parser.get_headers()
                 data = parser.get_vacancy_request(params, headers)
                 if data is not None:
-                    for i in data['items']:
-                        csv_handler.save_file(i)
+                    for item in data['items']:
+                        vacancy = parser.get_vacancy_by_id(item['id'], params, headers)
+                        if vacancy is not None:
+                            print((vacancy['id'],
+                                   vacancy['name'],
+                                   vacancy['salary'],
+                                   vacancy['area']['name'],
+                                   vacancy['initial_created_at'],
+                                   vacancy['employer']['name'],
+                                   vacancy['key_skills']
+                                   ))
+                            print('-' * 50)
+                        # csv_handler.save_file(item)
+                else:
+                    break
+
 
 
 if __name__ == "__main__":
