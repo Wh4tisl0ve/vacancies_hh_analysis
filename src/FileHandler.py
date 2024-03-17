@@ -16,7 +16,7 @@ class AbstractFileHandler(ABC):
 # класс по работе с CSV файлами
 class CSVHandler(AbstractFileHandler):
     def save_file(self, data):
-        with open('data.csv', 'a', newline='') as csvfile:
+        with open('../data.csv', 'a', newline='') as csvfile:
             csvwriter = csv.writer(csvfile, delimiter=',')
             for row in data:
                 try:
