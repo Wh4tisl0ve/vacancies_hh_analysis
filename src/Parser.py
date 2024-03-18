@@ -4,6 +4,7 @@ import src.ApiHH
 import src.FileHandler
 
 
+# класс для парсинга вакансий
 class Parser:
     def __init__(self, dict_query):
         # адрес запроса

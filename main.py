@@ -10,12 +10,14 @@ def main():
                   'directions_IT': ['Frontend, Backend, Fullstack', 'DevOps', 'Тестировщик',
                                     'Системный администратор']}
 
-    parser = src.Parser.Parser(dict_query)
     # парсинг данных
-    #parser.parsing()
+    #parser = src.Parser.Parser(dict_query)
+    # parser.parsing()
 
-    df_vacanies = pd.read_csv('data.csv',sep=',',encoding='cp1251')
-    print(df_vacanies.loc(0))
+    df_vacanies = pd.read_csv('data.csv', sep=',', encoding='cp1251')
+    df_vacanies.columns = ['keyword', 'page', 'id_vacancy', 'name', 'employer', 'accredited_it', 'salary', 'experience',
+                           'city', 'created_vacancy', 'skills']
+    print(df_vacanies)
 
 
 if __name__ == "__main__":
