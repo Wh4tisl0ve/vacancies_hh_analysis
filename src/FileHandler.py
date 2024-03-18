@@ -15,19 +15,22 @@ class AbstractFileHandler(ABC):
 
 # класс по работе с CSV файлами
 class CSVHandler(AbstractFileHandler):
-    def save_file(self, data):
-        with open('../data.csv', 'a', newline='') as csvfile:
+    def save_file(self, keyword, page, data):
+        with open('data.csv', 'a', newline='') as csvfile:
             csvwriter = csv.writer(csvfile, delimiter=',')
             try:
-                csvwriter.writerow((data['id'],
+                csvwriter.writerow((keyword, page, data['id'],
                                     data['name'],
-                                    data['area']['name'],
                                     data['employer']['name'],
+                                    data['employer']['accredited_it_employer'],
                                     data['salary'],
-                                    data['snippet']['requirement'],
-                                    data['experience']['name']))
-            except:
-                pass
+                                    data['experience']['name'],
+                                    data['area']['name'],
+                                    data['initial_created_at'],
+                                    data['key_skills']
+                                    ))
+            except Exception as exc:
+                print(exc)
 
     def read_file(self):
         pass

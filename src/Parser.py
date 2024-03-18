@@ -1,55 +1,38 @@
-import requests
-import datetime
+import time
 
-from dateutil.relativedelta import relativedelta
+import src.ApiHH
+import src.FileHandler
 
 
-# класс, позволяющий взаимодействовать с API hh.ru
 class Parser:
-    def __init__(self):
+    def __init__(self, dict_query):
         # адрес запроса
-        self.__url = f"https://api.hh.ru"
+        self.__dict_query = dict_query
 
-        # диапазон дат для вакансий
-        self.__dt_from = (datetime.date.today() - relativedelta(years=1)).strftime('%Y-%m-%d')
-        self.__dt_to = datetime.date.today().strftime('%Y-%m-%d')
+    def parsing(self):
+        parser = src.ApiHH.ApiHH()
+        csv_handler = src.FileHandler.CSVHandler()
 
-    # получение параметров запроса
-    def get_vacancies_params(self, text, city, page=1):
-        params = {
-            "text": f'NAME:{text}',
-            'date_from': self.__dt_from,
-            'date_to': self.__dt_to,
-            'currency': 'RUR',
-            'only_with_salary': True,
-            'clusters': True,
-            'page': page,
-            "area": city,
-            "per_page": 100
-        }
-
-        return params
-
-    def get_headers(self):
-        headers = {
-            'HH-User-Agent': "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0",
-        }
-        return headers
-
-    # получить результат запроса к API
-    def get_vacancy_request(self, params, headers):
-        ses = requests.Session()
-        response = ses.get(url=f'{self.__url}/vacancies', params=params, headers=headers)
-
-        if response.status_code == 200:
-            data = response.json()
-            return data
-
-    # получение полной информации о вакансии по id
-    def get_vacancy_by_id(self, id, params, headers):
-        ses = requests.Session()
-        response = ses.get(url=f'{self.__url}/vacancies/{id}', params=params, headers=headers)
-
-        if response.status_code == 200:
-            data = response.json()
-            return data
+        for lang in self.__dict_query['most_popular_lang']:
+            for city in self.__dict_query['most_popular_city']:
+                for page in range(0, 10):
+                    params = parser.get_vacancies_params(text=lang, city=city, page=page)
+                    headers = parser.get_headers()
+                    data = parser.get_vacancy_request(params, headers)
+                    for item in data['items']:
+                        time.sleep(2)
+                        vacancy = parser.get_vacancy_by_id(item['id'])
+                        try:
+                            print((lang, page, vacancy['id'],
+                                   vacancy['name'],
+                                   vacancy['employer']['name'],
+                                   vacancy['employer']['accredited_it_employer'],
+                                   vacancy['salary'],
+                                   vacancy['experience']['name'],
+                                   vacancy['area']['name'],
+                                   vacancy['initial_created_at'],
+                                   vacancy['key_skills']
+                                   ))
+                            csv_handler.save_file(keyword=lang, page=page, data=vacancy)
+                        except:
+                            print(vacancy, item['id'])
