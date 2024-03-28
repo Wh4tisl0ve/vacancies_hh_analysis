@@ -42,26 +42,26 @@ def main():
 
     # 4. Самые популярные технологии которые встречаются в вакансиях
 
-    # df_skills = df[['keyword', 'experience', 'city', 'skills']]
-    # dict_popular_skills = {}
-    #
-    # for item in df_skills.itertuples():
-    #     dict_popular_skills[item[1]] = []
-    #
-    # for key in dict_popular_skills.keys():
-    #     list_skills_lang = []
-    #     for i, in df_skills[['skills']][df['keyword'] == key].values:
-    #         for j in i:
-    #             list_skills_lang.append({j['name']: 1})
-    #     dict_popular_skills[key] = list_skills_lang
-    #
-    #     # Извлекаем все ключи из словарей и объединяем их
-    #     all_keys = [key for d in dict_popular_skills[key] for key in d.keys()]
-    #
-    #     # Считаем частоту каждого ключа
-    #     word_freq = dict(Counter(all_keys))
-    #
-    #     print(sorted(word_freq.items(), key=lambda x:x[1], reverse=True)[:10])
+    df_skills = df[['keyword', 'experience', 'city', 'skills']]
+    dict_popular_skills = {}
+
+    for item in df_skills.itertuples():
+        dict_popular_skills[item[1]] = []
+
+    for key in dict_popular_skills.keys():
+        list_skills_lang = []
+        for i, in df_skills[['skills']][df['keyword'] == key].values:
+            for j in i:
+                list_skills_lang.append({j['name']: 1})
+        dict_popular_skills[key] = list_skills_lang
+
+        # Извлекаем все ключи из словарей и объединяем их
+        all_keys = [key for d in dict_popular_skills[key] for key in d.keys()]
+
+        # Считаем частоту каждого ключа
+        word_freq = dict(Counter(all_keys))
+
+        print(sorted(word_freq.items(), key=lambda x:x[1], reverse=True)[:10])
 
 
 
