@@ -14,17 +14,17 @@ class Parser:
         parser = src.ApiHH.ApiHH()
         csv_handler = src.FileHandler.CSVHandler()
 
-        for lang in self.__dict_query['most_popular_lang']:
+        for keyword in self.__dict_query['most_popular_lang']:
             for city in self.__dict_query['most_popular_city']:
                 for page in range(0, 10):
-                    params = parser.get_vacancies_params(text=lang, city=city, page=page)
+                    params = parser.get_vacancies_params(text=keyword, city=city, page=page)
                     headers = parser.get_headers()
                     data = parser.get_vacancy_request(params, headers)
                     for item in data['items']:
                         time.sleep(2)
                         vacancy = parser.get_vacancy_by_id(item['id'])
                         try:
-                            print((lang, page, vacancy['id'],
+                            print((keyword, page, vacancy['id'],
                                    vacancy['name'],
                                    vacancy['employer']['name'],
                                    vacancy['employer']['accredited_it_employer'],
@@ -34,6 +34,6 @@ class Parser:
                                    vacancy['initial_created_at'],
                                    vacancy['key_skills']
                                    ))
-                            csv_handler.save_file(keyword=lang, page=page, data=vacancy)
+                            csv_handler.save_file(keyword=keyword, page=page, data=vacancy)
                         except:
                             print(vacancy, item['id'])
