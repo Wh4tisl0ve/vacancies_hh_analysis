@@ -15,7 +15,7 @@ class ApiHH:
         self.__dt_to = datetime.date.today().strftime('%Y-%m-%d')
 
     # получение параметров запроса
-    def get_vacancies_params(self, text, city, page=1):
+    def get_vacancies_params(self, text: str, city: str, page: int) -> dict:
         params = {
             "text": f'NAME:{text}',
             'date_from': self.__dt_from,
@@ -29,7 +29,7 @@ class ApiHH:
 
         return params
 
-    def get_headers(self):
+    def get_headers(self) -> dict:
         headers = {
             'HH-User-Agent': "Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0",
         }
@@ -45,8 +45,10 @@ class ApiHH:
             return data
 
     # получение полной информации о вакансии по id
-    def get_vacancy_by_id(self, id):
-        response = requests.get(url=f'{self.__url}/vacancies/{id}')
+    def get_vacancy_by_id(self, vacancy_id: int):
+        ses = requests.Session()
+        response = ses.get(url=f'{self.__url}/vacancies/{vacancy_id}')
 
-        data = response.json()
-        return data
+        if response.status_code == 200:
+            data = response.json()
+            return data
