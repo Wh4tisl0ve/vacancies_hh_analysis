@@ -15,6 +15,7 @@ def main():
     # parser = src.Parser.Parser(dict_query)
     # parser.parsing()
     analyzer = src.Analyzer.Analyzer()
+    print(analyzer.get_popular_skills())
 
 
 if __name__ == "__main__":

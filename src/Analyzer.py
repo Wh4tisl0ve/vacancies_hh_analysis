@@ -45,17 +45,21 @@ class Analyzer:
         return (df_salary[df_salary['currency'] == 'RUR'][['keyword', 'experience', 'city', 'salaryRes']]
                 .groupby(by=['keyword', 'experience', 'city']).agg(['mean', 'min', 'max', 'count']))
 
-    # Самые популярные технологии которые встречаются в вакансиях
-    def get_popular_skills(self):
-        df_skills = self.__df_vacancy[['keyword', 'experience', 'city', 'skills']]
-        dict_popular_skills = {}
+    def get_dict_keyword(self) -> dict:
+        dict_keyword = {}
 
-        for item in df_skills.itertuples():
-            dict_popular_skills[item[1]] = []
+        for item in self.__df_vacancy.itertuples():
+            dict_keyword[item[1]] = []
+
+        return dict_keyword
+
+    # Самые популярные технологии которые встречаются в вакансиях
+    def get_popular_skills(self) -> dict:
+        dict_popular_skills = self.get_dict_keyword()
 
         for key in dict_popular_skills.keys():
             list_skills_lang = []
-            for i, in df_skills[['skills']][self.__df_vacancy['keyword'] == key].values:
+            for i, in self.__df_vacancy[['skills']][self.__df_vacancy['keyword'] == key].values:
                 for j in i:
                     list_skills_lang.append({j['name']: 1})
             dict_popular_skills[key] = list_skills_lang
@@ -65,7 +69,9 @@ class Analyzer:
             # Считаем частоту каждого ключа
             word_freq = dict(Counter(all_keys))
 
-            print(dict(sorted(word_freq.items(), key=lambda x: x[1], reverse=True)[:10]))
+            dict_popular_skills[key] = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)[:10]
+
+        return dict_popular_skills
 
     # Подсчет количества вакансий по компаниям(ТОП-15)
     def get_count_vacancy_by_employer(self) -> pd.DataFrame:
