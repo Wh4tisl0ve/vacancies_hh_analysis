@@ -1,3 +1,5 @@
+import csv
+import sqlite3
 import time
 from statistics import mean
 
@@ -15,7 +17,7 @@ def main():
     # parser = src.Parser.Parser(dict_query)
     # parser.parsing()
     analyzer = src.Analyzer.Analyzer()
-    print(analyzer.get_popular_skills())
+    print(analyzer.get_count_vacancy_by_employer())
 
 
 if __name__ == "__main__":

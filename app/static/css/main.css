@@ -1,0 +1,25 @@
+.dataframe>:not(caption)>*>*{
+    text-align: center;
+}
+
+.dataframe>thead{
+    vertical-align: middle !important;
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.dataframe>thead th{
+    background: #2c5e77;
+    color: #fff;
+}
+
+
+
+
+
