@@ -2,9 +2,10 @@ from flask import render_template
 from flask_paginate import Pagination, get_page_args
 from app import app, data_frame_vacancies
 
+from src.Graph import create_bar_count_employer, create_bar_count_city
+
 
 # обработчики, для ответа на запросы браузера
-
 @app.route("/")
 def main():
     vacancies = data_frame_vacancies[['keyword', 'id_vacancy', 'name', 'employer', 'accredited_it',
@@ -27,7 +28,10 @@ def main():
                            titles=vacancies.columns.values,
                            page=page,
                            per_page=per_page,
-                           pagination=pagination)
+                           pagination=pagination,
+                           sample_size=total,
+                           bar_count_employer=create_bar_count_employer(),
+                           bar_count_city=create_bar_count_city())
 
 
 @app.route("/parsing")

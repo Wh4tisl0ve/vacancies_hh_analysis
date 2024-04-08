@@ -1,9 +1,9 @@
-.dataframe>:not(caption)>*>*{
-    text-align: center;
+.dataframe>:not(caption)>*>* {
+  text-align: center;
 }
 
-.dataframe>thead{
-    vertical-align: middle !important;
+.dataframe>thead {
+  vertical-align: middle !important;
 }
 
 table {
@@ -14,12 +14,100 @@ table {
   letter-spacing: 1px;
 }
 
-.dataframe>thead th{
-    background: #2c5e77;
-    color: #fff;
+.dataframe>thead th {
+  background: #2c5e77;
+  color: #fff;
 }
 
+.general {
+  width: 33.3333333333333%;
+  height: 200px;
+  border: 1px solid black;
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+}
 
+.content {
+  width: 30px;
+  height: 30px;
+  background: blue;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
 
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
 
+.modebar {
+  display: none !important;
+}
 
+.padded-boxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+/* boxes */
+.padded-boxes>* {
+  width: 100%;
+  background: white;
+  border-radius: .4rem;
+}
+
+/* headings */
+.padded-boxes .heading {
+  --start: 15%;
+  height: 90px;
+  background: #f97171;
+  margin: 0;
+  padding: 1rem;
+  border-top-left-radius: .4rem;
+  border-top-right-radius: .4rem;
+  background-image: repeating-radial-gradient(circle at var(--start), transparent 0%, transparent 10%, rgba(54, 89, 219, .33) 10%, rgba(54, 89, 219, .33) 17%), linear-gradient(to right, #5b7cfa, #3659db);
+  color: white;
+  text-align: center;
+}
+
+/* padded content */
+.padded-boxes .padded {
+  padding: .1rem 1rem;
+}
+
+/* tablet breakpoint */
+@media (min-width:768px) {
+  .padded-boxes>* {
+    width: calc(50% - 1rem);
+  }
+}
+
+section {
+  -webkit-box-shadow: 0px 0px 10px 3px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 0px 10px 3px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 0px 10px 3px rgba(34, 60, 80, 0.2);
+}
+
+section>h1 {
+  background: #29c5e6;
+  font: 30px 'Oswald', sans-serif;
+  font-weight: 300;
+  color: #fff;
+  padding: 0 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  .pagination {
+    flex-wrap: wrap;
+  }
+
+  .pagination li {
+    margin: 5px 0;
+  }
+}

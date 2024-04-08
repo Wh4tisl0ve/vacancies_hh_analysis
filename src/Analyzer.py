@@ -1,5 +1,6 @@
 import sqlite3
 
+import numpy as np
 import pandas as pd
 from collections import Counter
 
@@ -17,27 +18,34 @@ class Analyzer:
         self.__df_vacancy['salary'] = self.__df_vacancy['salary'].fillna('''{'from': 0, 'to': 0, 'currency': 'RUR', 
         'gross': False}''')
         self.__df_vacancy['salary'] = self.__df_vacancy['salary'].apply(lambda x: eval(x))
+
         # заполнить нулями
-        self.__df_vacancy['from'] = self.__df_vacancy['salary'].apply(lambda x: x['from']).fillna(0)
-        self.__df_vacancy['to'] = self.__df_vacancy['salary'].apply(lambda x: x['to']).fillna(0)
+        self.__df_vacancy['from'] = self.__df_vacancy['salary'].apply(lambda x: x['from'])
+        self.__df_vacancy['to'] = self.__df_vacancy['salary'].apply(lambda x: x['to'])
         self.__df_vacancy['currency'] = self.__df_vacancy['salary'].apply(lambda x: x['currency'])
 
         # в качестве зарплаты берется среднее значение from и to
-        self.__df_vacancy['salaryRes'] = self.__df_vacancy[['from', 'to']].mean(axis=1)
+        check_na_salary = self.__df_vacancy['from'].notna().any() and self.__df_vacancy['to'].notna().any()
+        self.__df_vacancy['salaryRes'] = np.where(check_na_salary,self.__df_vacancy[['from', 'to']].mean(axis=1),0)
+
         # превратить словарь умений в строку
         self.__df_vacancy['skillsRes'] = self.__df_vacancy['skills'].apply(lambda x: ', '.join([y['name'] for y in x]))
 
     def get_df_vacancy(self):
         return self.__df_vacancy
 
+    # Подсчет количества вакансий по городам(ключевое слово)
+    def get_count_vacancy_by_keyword_city(self) -> pd.DataFrame:
+        return self.__df_vacancy.groupby(by=['keyword', 'city']).agg('count')['page']
+
     # Подсчет количества вакансий по городам
     def get_count_vacancy_by_city(self) -> pd.DataFrame:
-        return self.__df_vacancy.groupby(by=['keyword', 'city']).agg('count')['page']
+        return self.__df_vacancy.groupby(by=['city']).agg('count')['page'].sort_values(ascending=False)
 
     # Подсчет количества вакансий по компаниям(ТОП-15)
     def get_count_vacancy_by_employer(self) -> pd.DataFrame:
         # круговая диаграмма и проценты
-        return self.__df_vacancy.groupby(by='employer').agg('count')['page'].sort_values(ascending=False)[:15]
+        return self.__df_vacancy.groupby(by='employer').count().sort_values(by='index', ascending=False)[:15]
 
     # Количество собранных вакансий по годам
     def get_count_vacancy_by_year(self) -> pd.DataFrame:

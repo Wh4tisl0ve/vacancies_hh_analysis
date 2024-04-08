@@ -5,7 +5,34 @@
 {% endblock %}
 
 {% block content %}
-<h1>Вакансии</h1>
+
+    <h1>Вакансии</h1>
+
 {% include "tb_dataframe.html" %}
 {{ pagination.links }}
+    <h1>Отображение данных</h1>
+<div class="padded-boxes">
+    <section>
+        <h3 class="heading">Топ 15 работодателей</h3>
+        <div class="padded">
+            <div class="chart" id="bargraph1">
+                <script>
+                    var graphs = {{bar_count_employer | safe}};
+                    Plotly.plot('bargraph1',graphs,{});
+                </script>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h3 class="heading">Количество вакансий по городам</h3>
+        <div class="padded">
+            <div class="chart" id="bargraph2">
+                <script>
+                    var graphs = {{bar_count_city | safe}};
+                    Plotly.plot('bargraph2',graphs,{});
+                </script>
+            </div>
+        </div>
+    </section>
+</div>
 {% endblock %}

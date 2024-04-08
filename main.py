@@ -1,13 +1,4 @@
-import csv
-import sqlite3
-import time
-from statistics import mean
-
-import numpy as np
-import pandas as pd
-
 import src.Analyzer
-
 
 def main():
     dict_query = {'query': ['Java', 'C#', 'Python', 'JavaScript', 'C++', 'PHP',
@@ -17,7 +8,11 @@ def main():
     # parser = src.Parser.Parser(dict_query)
     # parser.parsing()
     analyzer = src.Analyzer.Analyzer()
-    print(analyzer.get_count_vacancy_by_employer())
+    print(analyzer.get_count_vacancy_by_city().sort_values(ascending=False))
+
+
+
+
 
 
 if __name__ == "__main__":
